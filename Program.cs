@@ -30,14 +30,19 @@ public class Program
     private static void Main( string[] args )
     {
         List<Asset> assets = new();
-        Asset asset = new Computer( "Asus", "ROG 500", new Price(9999.90m, Currency.SEK), 
-            DateOnly.FromDateTime(DateTime.Now), Country.Sweden );
+        assets.Add( 
+            new Computer( "Asus", "ROG 500", new Price(9999.90m, Currency.SEK), 
+            DateOnly.FromDateTime(DateTime.Now), Country.Sweden )
+        );
+        
+        assets.Add( 
+            new Phone( "Iphone", "15", new Price(13990.90m, Currency.SEK), 
+            DateOnly.FromDateTime(DateTime.Now), Country.Sweden )
+        );
 
-        assets.Add(asset);
-
-        foreach( Asset assetsItem in assets )
+        foreach( Asset asset in assets )
         {
-            Write( assetsItem.Name + "; " );
+            Write( asset.Name + "; " );
         }
         WriteLine();
     }
