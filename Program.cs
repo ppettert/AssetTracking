@@ -1,4 +1,5 @@
 ﻿// See https://aka.ms/new-console-template for more information
+using System.IO.Compression;
 using AssetTracker;
 using static System.Console;
 
@@ -12,7 +13,7 @@ public class Program
         AssetList assets = new();
         assets.Add( 
             new Computer( "Asus", "ROG 500", new Price(9999.90m, Currency.SEK), 
-            DateOnly.FromDateTime(DateTime.Now), Country.Sweden )
+            DateOnly.FromDateTime(DateTime.Now.AddDays(2.0)), Country.Sweden )
         );
         
         assets.Add( 
@@ -24,6 +25,22 @@ public class Program
             new Computer( "Lenovo", "TinkPad T490", new Price(1599m, Currency.USD), 
             DateOnly.FromDateTime(DateTime.Now), Country.USA )
         );        
+
+
+
+        LiveCurrency.FetchRates();
+        ExchangeRates exchangeRates = new();
+        exchangeRates.EURUSD = LiveCurrency.Convert(1.0m, "EUR", "USD" );
+        exchangeRates.SEKUSD = LiveCurrency.Convert(1.0m, "SEK", "USD" );
+
+        // Use fixed exchange rate if LiveCurrency call fails
+        exchangeRates.EURUSD = exchangeRates.EURUSD == 0 ? 1.09m : exchangeRates.EURUSD;
+        exchangeRates.SEKUSD = exchangeRates.SEKUSD == 0 ? 0.096m : exchangeRates.SEKUSD;
+
+        List<Asset> sortedAssets = assets.OrderBy( x => x.GetType().Name )
+                                         .ThenBy( x => x.DatePurchased )
+                                         .ToList<Asset>();
+                                           
 
         WriteLine
         (
@@ -46,19 +63,8 @@ public class Program
             "-------------".PadRight(20) +
             "------"
         );
-
-
-        LiveCurrency.FetchRates();
-        ExchangeRates exchangeRates = new();
-        exchangeRates.EURUSD = LiveCurrency.Convert(1.0m, "EUR", "USD" );
-        exchangeRates.SEKUSD = LiveCurrency.Convert(1.0m, "SEK", "USD" );
-
-        // Use fixed exchange rate if LiveCurrency call fails
-        exchangeRates.EURUSD = exchangeRates.EURUSD == 0 ? 1.09m : exchangeRates.EURUSD;
-        exchangeRates.SEKUSD = exchangeRates.SEKUSD == 0 ? 0.096m : exchangeRates.SEKUSD;
-
-
-        foreach( Asset asset in assets )
+    
+        foreach( Asset asset in sortedAssets )
         {
             WriteLine
             ( 
