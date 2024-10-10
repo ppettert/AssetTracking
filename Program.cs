@@ -1,6 +1,86 @@
 ﻿// See https://aka.ms/new-console-template for more information
 using AssetTracker;
 using static System.Console;
+
+
+public class Program
+{
+    private static void Main( string[] args )
+    {
+        
+
+        AssetList assets = new();
+        assets.Add( 
+            new Computer( "Asus", "ROG 500", new Price(9999.90m, Currency.SEK), 
+            DateOnly.FromDateTime(DateTime.Now), Country.Sweden )
+        );
+        
+        assets.Add( 
+            new Phone( "Iphone", "15", new Price(13990.90m, Currency.SEK), 
+            DateOnly.FromDateTime(DateTime.Now), Country.Sweden )
+        );
+
+        assets.Add( 
+            new Computer( "Lenovo", "TinkPad T490", new Price(1599m, Currency.USD), 
+            DateOnly.FromDateTime(DateTime.Now), Country.USA )
+        );        
+
+        WriteLine
+        (
+            "Type".PadRight(20) + 
+            "Brand".PadRight(20) + 
+            "Model".PadRight(20) + 
+            "Price".PadRight(20) +
+            "US Price".PadRight(20) + 
+            "Date Purchased".PadRight(20) +
+            "Office"
+        );
+
+        WriteLine
+        (
+            "----".PadRight(20) + 
+            "-----".PadRight(20) + 
+            "-----".PadRight(20) +
+            "-----".PadRight(20) + 
+            "--------".PadRight(20) + 
+            "-------------".PadRight(20) +
+            "------"
+        );
+
+
+        LiveCurrency.FetchRates();
+        ExchangeRates exchangeRates = new();
+        exchangeRates.EURUSD = LiveCurrency.Convert(1.0m, "EUR", "USD" );
+        exchangeRates.SEKUSD = LiveCurrency.Convert(1.0m, "SEK", "USD" );
+
+        // Use fixed exchange rate if LiveCurrency call fails
+        exchangeRates.EURUSD = exchangeRates.EURUSD == 0 ? 1.09m : exchangeRates.EURUSD;
+        exchangeRates.SEKUSD = exchangeRates.SEKUSD == 0 ? 0.096m : exchangeRates.SEKUSD;
+
+
+        foreach( Asset asset in assets )
+        {
+            WriteLine
+            ( 
+                asset.GetType().Name.PadRight(20) +
+                asset.Brand.PadRight(20) +
+                asset.Model.PadRight(20) +
+                ( asset.Price.Amount +" "+ asset.Price.Currency ).PadRight(20) +
+                ( asset.Price.PriceInUSD( exchangeRates ).Amount.ToString("N2") +" "+ Currency.USD ).PadRight(20) +
+                asset.DatePurchased.ToString("yyyy-MM-dd").PadRight(20) + 
+                asset.Office
+            );
+        }
+        
+        WriteLine();
+
+
+
+    }
+
+
+}
+
 //Default list of assets
 //P.S I made up the model names from my limited imagination
 // tracker.AddAsset(new Smartphone(new Price(200, Currency.USD), DateTime.Now.AddMonths(-36 + 4), "Motorola", "X3", usa));
@@ -23,28 +103,3 @@ using static System.Console;
 // tracker.AddAsset(new Computer(new Price(1200, Currency.EUR), DateTime.Now.AddMonths(-36 + 4), "Asus", "ROG 500", germany));
 // tracker.AddAsset(new Computer(new Price(1200, Currency.EUR), DateTime.Now.AddMonths(-36 + 3), "Asus", "ROG 500", germany));
 // tracker.AddAsset(new Computer(new Price(1300, Currency.EUR), DateTime.Now.AddMonths(-36 + 2), "Asus", "ROG 500", germany));
-
-
-public class Program
-{
-    private static void Main( string[] args )
-    {
-        List<Asset> assets = new();
-        assets.Add( 
-            new Computer( "Asus", "ROG 500", new Price(9999.90m, Currency.SEK), 
-            DateOnly.FromDateTime(DateTime.Now), Country.Sweden )
-        );
-        
-        assets.Add( 
-            new Phone( "Iphone", "15", new Price(13990.90m, Currency.SEK), 
-            DateOnly.FromDateTime(DateTime.Now), Country.Sweden )
-        );
-
-        foreach( Asset asset in assets )
-        {
-            Write( asset.Name + "; " );
-        }
-        WriteLine();
-    }
-
-}

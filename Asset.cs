@@ -1,7 +1,7 @@
 
 namespace AssetTracker
 {
-
+    
     public enum Country
     {
         USA,
@@ -10,18 +10,18 @@ namespace AssetTracker
     }
     public class Asset
     {
-        public string Name { get; set; }
+        public string Brand { get; set; }
         public string Model { get; set; }
-        public Price Amount { get; set; }
+        public Price Price { get; set; }
         public DateOnly DatePurchased { get; set; }
         public Country Office { get; set; } 
 
 
-        public Asset( string name, string model, Price amount, DateOnly datePurchased, Country office  )
+        public Asset( string brand, string model, Price price, DateOnly datePurchased, Country office  )
         { 
-            Name = name;
+            Brand = brand;
             Model = model;
-            Amount = amount;
+            Price = price;
             DatePurchased = datePurchased;
             Office = office;
         }
