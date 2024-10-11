@@ -1,5 +1,6 @@
 using System.Runtime;
 using System.Runtime.InteropServices;
+using System.Security.Cryptography;
 
 namespace AssetTracker 
 {
@@ -11,12 +12,7 @@ namespace AssetTracker
         SEK
     }
 
-    public class ExchangeRates
-    {
-        public decimal EURUSD;
-        public decimal SEKUSD;
-
-    }
+ 
     public class Price
     {
     //    public decimal EURUSD = 1.09m;

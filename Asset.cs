@@ -1,4 +1,7 @@
 
+using System.Security.Cryptography;
+using Microsoft.VisualBasic;
+
 namespace AssetTracker
 {
     
@@ -24,6 +27,20 @@ namespace AssetTracker
             Price = price;
             DatePurchased = datePurchased;
             Office = office;
+        }
+
+        public bool MarkedRed()
+        {
+            DateOnly today = DateOnly.FromDateTime(DateTime.Now);
+            // Asset should be marked red if 2 years and 6 months or older
+            return this.DatePurchased.AddMonths(30).CompareTo( today ) < 0;  
+        }
+
+        public bool MarkedYellow()
+        {
+            DateOnly today = DateOnly.FromDateTime(DateTime.Now);
+            // Asset should be marked red if 2 years and 3 months or older
+            return this.DatePurchased.AddMonths(27).CompareTo( today ) < 0;  
         }
     }
 }
