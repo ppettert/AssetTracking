@@ -29,23 +29,23 @@ namespace AssetTracker
 
             WriteLine 
             ( 
-                "Type".PadRight(20) +
-                "Brand".PadRight(20) +
+                "Type".PadRight(15) +
+                "Brand".PadRight(15) +
                 "Model".PadRight(20) +
                 "Price".PadRight(20) +
                 "US Price".PadRight(20) +
-                "Date Purchased".PadRight(20) +
+                "Date Purchased".PadRight(18) +
                 "Office"
             ); 
 
             WriteLine
             ( 
-                "----".PadRight(20) +
-                "-----".PadRight(20) +
+                "----".PadRight(15) +
+                "-----".PadRight(15) +
                 "-----".PadRight(20) +
                 "-----".PadRight(20) +
                 "--------".PadRight(20) +
-                "-------------".PadRight(20) +
+                "--------------".PadRight(18) +
                 "------"
             );
 
@@ -64,12 +64,12 @@ namespace AssetTracker
 
                 WriteLine
                 ( 
-                    asset.GetType().Name.PadRight(20) +
-                    asset.Brand.PadRight(20) +
+                    asset.GetType().Name.PadRight(15) +
+                    asset.Brand.PadRight(15) +
                     asset.Model.PadRight(20) +
                     (asset.Price.Amount + " " + asset.Price.Currency).PadRight(20) +
                     (asset.Price.PriceInUSD( exchangeRates ).Amount.ToString("N2") + " " + Currency.USD).PadRight(20) +
-                    asset.DatePurchased.ToString("yyyy-MM-dd").PadRight(20) +
+                    asset.DatePurchased.ToString("yyyy-MM-dd").PadRight(18) +
                     asset.Office
                 );
 
