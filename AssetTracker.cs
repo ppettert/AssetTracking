@@ -139,9 +139,9 @@ namespace AssetTracker
             
             string? input = ReadLine()?.Trim().ToUpper();
 
-            // if input==null then set inputChar to ' '
-            char inputChar = input?[0] ?? ' ';
-
+            // if input==null or empty then set inputChar to ' ' ...
+            char? inputChar = input?.Length == 0 ? ' ' : input?.First();
+                  
             switch( inputChar )
             {
                 case 'A':  
