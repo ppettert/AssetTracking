@@ -31,8 +31,8 @@ namespace AssetTracker
         {
             return this.Currency switch
             {
-                Currency.EUR => new Price(this.Amount * exchangeRates.EURUSD, Currency.USD),
-                Currency.SEK => new Price(this.Amount * exchangeRates.SEKUSD, Currency.USD),
+                Currency.EUR => new Price(this.Amount * exchangeRates.RateEURUSD, Currency.USD),
+                Currency.SEK => new Price(this.Amount * exchangeRates.RateSEKUSD, Currency.USD),
                 _ => this,
             };
         }

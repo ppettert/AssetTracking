@@ -44,23 +44,23 @@ namespace AssetTracker
 
         public static decimal Convert(decimal input, string fromCurrency, string toCurrency) // Method that uses the fetched rates to convert between the given rates via Euro
         {
-            decimal value = 0;
+            decimal? value = 0;
             
             if (fromCurrency == "EUR")
             {
-                value = input * currencyList.Find(c => c.CurrencyCode == toCurrency).ExchangeRateFromEUR;
+                value = input * currencyList?.Find(c => c.CurrencyCode == toCurrency)?.ExchangeRateFromEUR;
             }
             else if (toCurrency == "EUR")
             {
-                value = input / currencyList.Find(c => c.CurrencyCode == fromCurrency).ExchangeRateFromEUR;
+                value = input / currencyList?.Find(c => c.CurrencyCode == fromCurrency)?.ExchangeRateFromEUR;
             }
             else
             {
-                value = input / currencyList.Find(c => c.CurrencyCode == fromCurrency).ExchangeRateFromEUR;
-                value *= currencyList.Find(c => c.CurrencyCode == toCurrency).ExchangeRateFromEUR;
+                value = input / currencyList?.Find(c => c.CurrencyCode == fromCurrency)?.ExchangeRateFromEUR;
+                value *= currencyList?.Find(c => c.CurrencyCode == toCurrency)?.ExchangeRateFromEUR;
             }
 
-            return value;
+            return (decimal)(value is null ? 0.0m : value);
         }
     }
 }
