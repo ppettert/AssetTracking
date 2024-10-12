@@ -116,9 +116,18 @@ namespace AssetTracker
             );
         }
 
+        public void AddAsset()
+        {
+            InsertDummyValues();
+
+            // Add user interaction for entering assets here
+        }
+
 
         /*
-            Run method reads user input to 
+            Run method contains "Main Menu" to and reads user input
+            to perform actions:
+
             (A)dd Asset, (P)rint Asset List, or (Q)uit
 
             return: false if user entered Q to quit, true otherwise
@@ -126,30 +135,33 @@ namespace AssetTracker
         public bool Run()
         {
 
-            Write("\n(A)dd Asset, (P)rint Asset List, or (Q)uit:" );
+            Write("\n(A)dd Asset, (P)rint Asset List, or (Q)uit: " );
             
             string? input = ReadLine()?.Trim().ToUpper();
 
-            if( input is null )
-            {
-            }
-            else if( input.Equals("A") )
-            {
-                // Call add asset
-            }
-            else if( input.Equals("P") )
-            {
-                PrettyPrint();
-            }
-            else if( input.Equals("I") )
-            {
-                InsertDummyValues();
-            }
-            else if( input.Equals("Q") )
-            {
-                return false; 
-            }
+            // if input==null then set inputChar to ' '
+            char inputChar = input?[0] ?? ' ';
 
+            switch( inputChar )
+            {
+                case 'A':  
+                    AddAsset();
+                    break;
+            
+                case 'P':
+                    PrettyPrint();
+                    break;
+
+                case 'I':
+                    InsertDummyValues();
+                    break;
+
+                case 'Q':
+                    return false;
+
+                default:
+                    break;
+            }
 
             return true; 
         }

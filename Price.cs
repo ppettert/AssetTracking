@@ -12,11 +12,8 @@ namespace AssetTracker
         SEK
     }
 
- 
     public class Price
     {
-    //    public decimal EURUSD = 1.09m;
-    //    public decimal SEKUSD = 0.096m;
 
         public decimal Amount { get; set; }
         public Currency Currency { get; set; }

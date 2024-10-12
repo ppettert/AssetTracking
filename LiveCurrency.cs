@@ -44,7 +44,7 @@ namespace AssetTracker
 
         public static decimal Convert(decimal input, string fromCurrency, string toCurrency) // Method that uses the fetched rates to convert between the given rates via Euro
         {
-            decimal? value = 0;
+            decimal? value = 0.0m;
             
             if (fromCurrency == "EUR")
             {
@@ -60,7 +60,8 @@ namespace AssetTracker
                 value *= currencyList?.Find(c => c.CurrencyCode == toCurrency)?.ExchangeRateFromEUR;
             }
 
-            return (decimal)(value is null ? 0.0m : value);
+           // return (decimal)(value is null ? 0.0m : value);
+           return value ?? 0.0m;
         }
     }
 }
