@@ -9,4 +9,4 @@ P - Print asset list
 Q - Quit
 ```
 
-![hello](images/vaultboy.png)
+![hello](images/vaultboy_sunglasses.png)
