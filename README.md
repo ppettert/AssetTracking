@@ -8,3 +8,5 @@ A - Add asset
 P - Print asset list
 Q - Quit
 ```
+
+![hello](images/vaultboy.png)
