@@ -1,6 +1,10 @@
 # Weekly MiniProject W40
 ## AssetTracker
-### Text
+### C# project done to learn this and that
 
-More text
-
+User interface commands:
+```
+A - Add asset
+P - Print asset list
+Q - Quit
+```
