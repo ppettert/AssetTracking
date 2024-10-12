@@ -1,12 +1,4 @@
-﻿using System;
-using System.Net;
-using System.Xml;
-using System.Globalization;
-using System.Xml.Serialization;
-using System.Xml.Linq;
-using static System.Runtime.InteropServices.JavaScript.JSType;
-using System.Reflection.Metadata;
-using System.Data.SqlTypes;
+﻿using System.Xml;
 
 namespace AssetTracker
 {

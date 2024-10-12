@@ -1,7 +1,4 @@
 ﻿// See https://aka.ms/new-console-template for more information
-using System.IO.Compression;
-using System.Security.Cryptography;
-using AssetTracker;
 using static System.Console;
 
 namespace AssetTracker
@@ -95,7 +92,7 @@ namespace AssetTracker
             exchangeRates.SEKUSD = LiveCurrency.Convert(1.0m, "SEK", "USD");
 
             // Use fixed exchange rate if LiveCurrency call fails
-            exchangeRates.EURUSD = exchangeRates.EURUSD == 0.0m  ? 1.09m : exchangeRates.EURUSD;
+            exchangeRates.EURUSD = exchangeRates.EURUSD == 0.0m ? 1.09m : exchangeRates.EURUSD;
             exchangeRates.SEKUSD = exchangeRates.SEKUSD == 0.0m ? 0.096m : exchangeRates.SEKUSD;
 
             // AssetList sortedAssets = (AssetList)assets.OrderBy(x => x.GetType().Name)
@@ -109,7 +106,7 @@ namespace AssetTracker
 
             PrettyPrint( sortedAssets, exchangeRates );
 
-
+            new UserInterface().Run();
 
         }
 
