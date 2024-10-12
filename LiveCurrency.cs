@@ -16,7 +16,8 @@ namespace AssetTracker
     }
     public class LiveCurrency // Class that handles fetching the exchange rates and converting currencies
     {
-        private static List<CurrencyObj> currencyList = new List<CurrencyObj>();
+        private static List<CurrencyObj> CurrencyList = [];
+
 
         public static void FetchRates()
         {
@@ -35,7 +36,7 @@ namespace AssetTracker
 
                             reader.MoveToNextAttribute();
                             decimal rate = decimal.Parse(reader.Value);
-                            currencyList.Add(new CurrencyObj(currencyCode, rate));
+                            CurrencyList.Add(new CurrencyObj(currencyCode, rate));
                         }
                     }
                 }
@@ -48,16 +49,16 @@ namespace AssetTracker
             
             if (fromCurrency == "EUR")
             {
-                value = input * currencyList?.Find(c => c.CurrencyCode == toCurrency)?.ExchangeRateFromEUR;
+                value = input * CurrencyList?.Find(c => c.CurrencyCode == toCurrency)?.ExchangeRateFromEUR;
             }
             else if (toCurrency == "EUR")
             {
-                value = input / currencyList?.Find(c => c.CurrencyCode == fromCurrency)?.ExchangeRateFromEUR;
+                value = input / CurrencyList?.Find(c => c.CurrencyCode == fromCurrency)?.ExchangeRateFromEUR;
             }
             else
             {
-                value = input / currencyList?.Find(c => c.CurrencyCode == fromCurrency)?.ExchangeRateFromEUR;
-                value *= currencyList?.Find(c => c.CurrencyCode == toCurrency)?.ExchangeRateFromEUR;
+                value = input / CurrencyList?.Find(c => c.CurrencyCode == fromCurrency)?.ExchangeRateFromEUR;
+                value *= CurrencyList?.Find(c => c.CurrencyCode == toCurrency)?.ExchangeRateFromEUR;
             }
 
            // return (decimal)(value is null ? 0.0m : value);
