@@ -2,7 +2,7 @@
 ## AssetTracker
 ### C# project done to learn Class inhertance and more.
 
-The asset tracker stores and displays assets of types Phone and Computer with Purchase date and markup of items close to write-off. It has built-in live currency conversion costs of assets purchased in EUR and SEK to USD.
+The Asset Tracker stores and displays assets of types Phone and Computer togther with Purchase Date and Price, Office location and markup of items close to write-off. It has built-in live currency conversion costs of assets purchased in EUR and SEK to USD.
 
 User interface commands:
 ```
@@ -21,13 +21,14 @@ Spec says $${\color{yellow}yellow}$$ should be used but it is hard to see when y
 
 Locale set to *"en-US"* because *LiveCurrency* class depends on a data source that uses "." decimal notation.
 
-The class Asset provides the foundation of the project and has these properties:
+The procedure to add an Asset manually (Menu choice 'A') is as follows:
 ```
-Asset Type:      Defined by Asset subclasses Computer and Phone, inheriting Asset base class
-Brand:           String containing brand name, such as Apple, Samsung, Lenovo etc.
-Price:           Class with properties Amount (type:decimal) and Currency (type:enum with currency codes)
-DatePurchased:   Date (year, month, day) of the DateOnly type, typically handled in yyyy-MM-dd format
-Office:          Defined by enum Country that lists country names where there are offices with assets
+1. Select between Computer or Phone
+2. Enter Brand name, such as Apple, Lenovo, Samsung, OnePlus, HP etc.
+3. Enter Model name, such as Iphone, Macboook, Thinkpad, Galaxy 23 etc.
+4. Enter Office, for which the asset was bought, pick between USA, Spain and Sweden.
+5. Enter Price, a numeric value with decimals marked by a dot, not comma. Currency will be set according to Office.
+
 ```
 
 ![hello](images/vaultboy_sunglasses.png)
