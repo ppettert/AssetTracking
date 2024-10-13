@@ -4,7 +4,9 @@ using static System.Console;
 
 namespace AssetTracker
 {
-
+    /*
+        General class for user interaction and creation and handling of asset list
+    */
     public class AssetTracker
     {
         private List<Asset> assets;
@@ -17,8 +19,14 @@ namespace AssetTracker
             WriteLine("Welcome to AssetTracker 1.0");
         }
 
-        
-        public void PrettyPrint()
+
+        /*
+            Prints the asset list in a formatted way with color highlighting depending
+            on if write-off date is getting closer
+
+            in: sortByOffice    Set to false to sort by Asset type, otherwise sorted by in which location asset is in
+        */
+        public void PrettyPrint( bool sortByOffice = true )
         {
             if( assets.Count == 0 )
             {
@@ -26,9 +34,15 @@ namespace AssetTracker
                 return; 
             }
 
-            List<Asset> sortedAssets = assets.OrderBy(x => x.GetType().Name)
-                                             .ThenBy(x => x.DatePurchased)
-                                             .ToList();
+            List<Asset> sortedAssets = 
+                sortByOffice ? 
+                    assets.OrderBy(x => x.Office )
+                                     .ThenBy(x => x.DatePurchased)
+                                     .ToList()
+                    :
+                        assets.OrderBy(x => x.GetType().Name)
+                              .ThenBy(x => x.DatePurchased)
+                              .ToList();                  
 
             WriteLine 
             ( 
@@ -80,6 +94,9 @@ namespace AssetTracker
             }
         }
 
+        /*
+            Helper method to make it easy to add a lot of assets into the asset list
+        */
         public void InsertSampleData()
         {
             // AI was decent at creating this list, also gave me the right answers for dates that are 2 years and 3 months old
@@ -104,6 +121,9 @@ namespace AssetTracker
             // Add user interaction for entering assets here
         }
 
+        /*
+            Helper Method to display all possible menu choices
+        */
         public void ListCommands()
         {
             WriteLine("\n\tA - Add new asset to list");
@@ -114,6 +134,9 @@ namespace AssetTracker
             WriteLine("\tQ - Quit");
         }
 
+        /*
+            Summarizes and prints some statistics about the current asset list state
+        */
         public void ShowStats()
         {
             // It's LINQ time!
@@ -170,6 +193,10 @@ namespace AssetTracker
             
                 case 'P':
                     PrettyPrint();
+                    break;
+
+                case 'T':
+                    PrettyPrint( false );
                     break;
 
                 case 'C':

@@ -5,14 +5,22 @@ using Microsoft.VisualBasic;
 namespace AssetTracker
 {
     
+    /*
+        Enum for countries used to define Offices in Asset
+    */
     public enum Country
     {
-        USA,
-        Spain,
+        France,    
         Germany,
-        France,
-        Sweden
+        Spain,
+        Sweden,
+        USA
     }
+
+    /*
+        Generic Asset Class
+        Asset class properties described in constructor 
+    */
     public class Asset
     {
         public string Brand { get; set; }
@@ -21,7 +29,14 @@ namespace AssetTracker
         public DateOnly DatePurchased { get; set; }
         public Country Office { get; set; } 
 
-
+        /*
+            Asset constructor
+            in:     brand           string with brand name of asset
+            in:     model           string with model name of asset
+            in:     price           Price object with paid amount and currency
+            in:     datePurchased   DateOnly object with date of purchase
+            return: new Asset object
+        */
         public Asset( string brand, string model, Price price, DateOnly datePurchased, Country office  )
         { 
             Brand = brand;

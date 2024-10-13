@@ -1,8 +1,14 @@
 namespace AssetTracker
 {
+    /*
+        Convenience class to set and get exchange rate data 
+        used to convert prices to USD from SEK and EUR 
+    */
     public class ExchangeRates
     {
-    
+        /*
+            ExchangeRates class constructor
+        */
         public ExchangeRates()
         {  
             LiveCurrency.FetchRates();
@@ -16,6 +22,10 @@ namespace AssetTracker
         
         }
 
+        /*
+            RateEURUSD: The rate between EUR and USD
+            RateSEKUSD: The rate between SEK and USD
+        */
         public decimal RateEURUSD { get; set; } = 0.0m;
         public decimal RateSEKUSD { get; set; } = 0.0m;
     }
