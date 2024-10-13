@@ -256,7 +256,7 @@ namespace AssetTracker
             done = false;
             while( !done )
             {
-                Write("Enter Purchase date in yyyy-MM-dd format or Today for today's date: ");
+                Write("Enter Purchase date in YYYY-MM-DD format or Today for today's date: ");
                 string? input = ReadLine()?.Trim();   
 
                 if( input is not null )
