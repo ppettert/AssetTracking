@@ -2,6 +2,8 @@
 ## AssetTracker
 ### C# project done to learn Class inhertance and more.
 
+The asset tracker stores and displays assets of types Phone and Computer with Purchase date and markup of items close to write-off. It has built-in live currency conversion costs of assets purchased in EUR and SEK to USD.
+
 User interface commands:
 ```
 A - Add new asset to list
@@ -19,13 +21,13 @@ Spec says $${\color{yellow}yellow}$$ should be used but it is hard to see when y
 
 Locale set to *"en-US"* because *LiveCurrency* class depends on a data source that uses "." decimal notation.
 
-The class Asset has these properties:
+The class Asset provides the foundation of the project and has these properties:
 ```
-Asset Type: Defined by Asset subclasses Computer and Phone, inheriting Asset base class
-Brand: String containing brand name, such as Apple, Samsung, Lenovo etc.
-Price: Class with properties Amount (type:decimal) and Currency (type:enum with currency codes)
-DatePurchased: Date (year, month, day) of the DateOnly type, typically handled in yyyy-MM-dd format
-Office: Defined by enum Country that lists country names where there are offices with assets
+Asset Type:      Defined by Asset subclasses Computer and Phone, inheriting Asset base class
+Brand:           String containing brand name, such as Apple, Samsung, Lenovo etc.
+Price:           Class with properties Amount (type:decimal) and Currency (type:enum with currency codes)
+DatePurchased:   Date (year, month, day) of the DateOnly type, typically handled in yyyy-MM-dd format
+Office:          Defined by enum Country that lists country names where there are offices with assets
 ```
 
 ![hello](images/vaultboy_sunglasses.png)
