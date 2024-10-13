@@ -86,7 +86,7 @@ namespace AssetTracker
                     asset.GetType().Name.PadRight(15) +
                     asset.Brand?.PadRight(15) +
                     asset.Model?.PadRight(20) +
-                    (asset.Price?.Amount + " " + asset.Price?.Currency).PadRight(20) +
+                    (asset.Price?.Amount.ToString("N2") + " " + asset.Price?.Currency).PadRight(20) +
                     (asset.Price?.PriceInUSD( exchangeRates ).Amount.ToString("N2") + " " + Currency.USD).PadRight(20) +
                     asset.DatePurchased.ToString("yyyy-MM-dd").PadRight(18) +
                     asset.Office
@@ -117,15 +117,16 @@ namespace AssetTracker
             WriteLine($"\nTest data added to list, Asset list now has {assets.Count} items.");
         }
 
-        /*
-            Helper function for Add asset
-            return: true if asset was added, false if user aborted
-        */
-         
+
         // For code review: 
         // This method is a bit long, and too deep, would like to refactor
         // to make it a little bit flatter and maybe divide it into more
         // functions
+
+        /*
+            Helper function for Add asset
+            return: true if asset was added, false if user aborted
+        */ 
         public bool AddAssetProperties( Asset asset )
         {
             // Brand property input loop
@@ -171,107 +172,6 @@ namespace AssetTracker
                 }
             }
 
-            // Price property input loop
-            done = false;
-            while( !done )
-            {
-                Write("Enter amount paid: ");
-
-                string? input = ReadLine()?.Trim();
-                if( input is not null )
-                {
-                    if( input.Equals("Q", OrdinalIgnoreCase ) )
-                    {
-                        return false;
-                    }
-
-                    if( decimal.TryParse(input, out decimal amount) )
-                    {
-                        while( !done )
-                        {
-
-                            Write("Enter Currency (SEK, EUR or USD): ");
-                            input = ReadLine()?.Trim();
-
-                            if( input is not null)
-                            {
-                                if( input.Equals("Q", OrdinalIgnoreCase) )
-                                {
-                                    return false;
-                                }
-
-                                Currency currency = Currency.USD;
-
-                                string[] validCurrencies = { "SEK", "EUR", "USD" };
-
-                                foreach (var curr in validCurrencies)
-                                {
-                                    if (input.Equals(curr, OrdinalIgnoreCase))
-                                    {
-                                        currency = Enum.Parse<Currency>(curr);
-                                        asset.Price = new Price(amount, currency);
-                                        done = true;
-                                        break;
-                                    }
-                                }
-
-                                if (!done)
-                                {
-                                    WriteLine("Currency entered not supported!");
-                                }
-
-                            }
-                        }
-
-                    }
-                    else
-                    {
-                        WriteLine("Invalid amount value entered!");
-                    }
-                }
-
-            }
-
-            // DateOnly user input loop
-            // asset.DatePurchased = DateOnly.FromDateTime(DateTime.Today);
-            
-            done = false;
-            while( !done )
-            {
-                Write("Enter Purchase date in yyyy-MM-dd format or Today for today's date: ");
-                string? input = ReadLine()?.Trim();   
-
-                if( input is not null )
-                {
-                    if( input.Length == 0 )
-                    {
-                    }
-                    else if( input.Equals("Q", OrdinalIgnoreCase) )
-                    {
-                        return false;
-                    }
-                    else if( input.Equals("Today", OrdinalIgnoreCase) )
-                    {
-                        asset.DatePurchased = DateOnly.FromDateTime(DateTime.Today);
-                        done = true;    
-                    }
-                    else 
-                    {
-                        if( DateOnly.TryParse( input, out DateOnly date ))
-                        {
-                            asset.DatePurchased = date;
-                            done = true;
-                        }
-                        else
-                        {
-                            WriteLine("Was not able to understand the date format. Please try again!");
-                        }
-                    }
-
-                }
-
-            }
-
             // Office (Countries) user input loop
             done = false;
             while( !done )
@@ -313,6 +213,85 @@ namespace AssetTracker
                 }
             }
 
+            // Price property input loop
+            done = false;
+            while( !done )
+            {
+                Write("Enter amount paid: ");
+
+                string? input = ReadLine()?.Trim();
+                if( input is not null )
+                {
+                    if( input.Equals("Q", OrdinalIgnoreCase ) )
+                    {
+                        return false;
+                    }
+
+                    if( decimal.TryParse(input, out decimal amount) )
+                    {
+                        Currency currency = Currency.USD; // Default to USD
+                        
+                        if( asset.Office == Country.Spain )  
+                        {
+                            currency = Currency.EUR;
+                        }
+
+                        if( asset.Office == Country.Sweden )
+                        {
+                            currency = Currency.SEK;
+                        }
+                        
+                        asset.Price = new( amount, currency ); 
+                        done = true;
+
+                    }
+                    else
+                    {
+                        WriteLine("Invalid amount value entered!");
+                    }
+                }
+
+            }
+
+            // DateOnly user input loop
+            // asset.DatePurchased = DateOnly.FromDateTime(DateTime.Today); 
+            done = false;
+            while( !done )
+            {
+                Write("Enter Purchase date in yyyy-MM-dd format or Today for today's date: ");
+                string? input = ReadLine()?.Trim();   
+
+                if( input is not null )
+                {
+                    if( input.Length == 0 )
+                    {
+                    }
+                    else if( input.Equals("Q", OrdinalIgnoreCase) )
+                    {
+                        return false;
+                    }
+                    else if( input.Equals("Today", OrdinalIgnoreCase) )
+                    {
+                        asset.DatePurchased = DateOnly.FromDateTime(DateTime.Today);
+                        done = true;    
+                    }
+                    else 
+                    {
+                        if( DateOnly.TryParse( input, out DateOnly date ))
+                        {
+                            asset.DatePurchased = date;
+                            done = true;
+                        }
+                        else
+                        {
+                            WriteLine("Was not able to understand the date format. Please try again!");
+                        }
+                    }
+
+                }
+
+            }
+    
             assets.Add(asset);
 
             return true;
@@ -338,13 +317,11 @@ namespace AssetTracker
                 {
                     Asset? asset = null; 
 
-                    if( input.Equals("Computer", OrdinalIgnoreCase) ||
-                        input.Equals("C", OrdinalIgnoreCase) )                                 
+                    if( input.Equals("Computer", OrdinalIgnoreCase) || input.Equals("C", OrdinalIgnoreCase) )                                 
                     {
                         asset = new Computer();
                     }
-                    else if( input.Equals("Phone", OrdinalIgnoreCase) || 
-                             input.Equals("P", OrdinalIgnoreCase) )
+                    else if( input.Equals("Phone", OrdinalIgnoreCase) || input.Equals("P", OrdinalIgnoreCase) )
                     {
                         asset = new Phone();
                     }
@@ -437,35 +414,35 @@ namespace AssetTracker
             string? input = ReadLine()?.Trim().ToUpper();
 
             // if input==null or empty then set inputChar to ' ' ...
-            char? inputChar = input?.Length == 0 ? ' ' : input?.First();
+            // char? inputChar = input?.Length == 0 ? ' ' : input?.First();
                   
-            switch( inputChar )
+            switch( input )
             {
-                case 'A':  
+                case "A":  
                     AddAsset();
                     break;
             
-                case 'P':
+                case "P":
                     PrettyPrint();
                     break;
 
-                case 'T':
+                case "T":
                     PrettyPrint( false );
                     break;
 
-                case 'C':
+                case "C":
                     ListCommands();
                     break;
 
-                case 'F':
+                case "F":
                     InsertSampleData();           
                     break;
 
-                case 'S':
+                case "S":
                     ShowStats(); 
                     break;
 
-                case 'Q':
+                case "Q":
                     WriteLine("\nGoodbye!");
                     return false;
 
