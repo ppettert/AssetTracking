@@ -1,5 +1,4 @@
-
-using System.Security.Principal;
+using System.Formats.Asn1;
 using static System.Console;
 
 namespace AssetTracker
@@ -34,6 +33,9 @@ namespace AssetTracker
                 return; 
             }
 
+            // if sortByOffice is true:  set sortedAssets to assets sorted by Office first
+            // if sortByOffice is false: set sortedAsset to assets sorted by Asset type first
+            // secondary sort criteria is Date Purchased in both cases
             List<Asset> sortedAssets = 
                 sortByOffice ? 
                     assets.OrderBy(x => x.Office )
@@ -82,10 +84,10 @@ namespace AssetTracker
                 WriteLine
                 ( 
                     asset.GetType().Name.PadRight(15) +
-                    asset.Brand.PadRight(15) +
-                    asset.Model.PadRight(20) +
-                    (asset.Price.Amount + " " + asset.Price.Currency).PadRight(20) +
-                    (asset.Price.PriceInUSD( exchangeRates ).Amount.ToString("N2") + " " + Currency.USD).PadRight(20) +
+                    asset.Brand?.PadRight(15) +
+                    asset.Model?.PadRight(20) +
+                    (asset.Price?.Amount + " " + asset.Price?.Currency).PadRight(20) +
+                    (asset.Price?.PriceInUSD( exchangeRates ).Amount.ToString("N2") + " " + Currency.USD).PadRight(20) +
                     asset.DatePurchased.ToString("yyyy-MM-dd").PadRight(18) +
                     asset.Office
                 );
@@ -115,10 +117,130 @@ namespace AssetTracker
             WriteLine($"\nTest data added to list, Asset list now has {assets.Count} items.");
         }
 
+        /* 
+        */
+        // public void AddStringProperty( Asset asset, string PropertyName )
+        // {
+        //     Write
+        // }
+
+
+        /*
+            Helper function for Add asset
+            return: true if asset was added, false if user aborted
+        */
+        public bool AddAssetProperties( Asset asset )
+        {
+            // Brand
+            bool done = false;
+            while( !done )
+            {
+                Write("Enter brand name: ");
+                string? input = ReadLine()?.Trim();
+                if( input is not null)
+                {
+                    if( input.ToUpper().Equals("Q") )
+                    {
+                        return false;
+                    }
+                    else if( input.Length != 0 )
+                    {
+                        asset.Brand = input;
+                        done = true;
+                    }
+
+                }
+            }
+
+            // Model
+            done = false;
+            while( !done )
+            {
+                Write("Enter model name: ");
+                string? input = ReadLine()?.Trim();
+                if( input is not null)
+                {
+                    if( input.ToUpper().Equals("Q") )
+                    {
+                        return false;
+                    }
+                    else if( input.Length != 0 )
+                    {
+                        asset.Model = input;
+                        done = true;
+                    } 
+
+                }
+            }
+
+            // Price
+            asset.Price = new Price( 1000.0m, Currency.EUR );
+            // DateOnly
+            asset.DatePurchased = DateOnly.FromDateTime(DateTime.Today);
+            // Office
+            asset.Office = Country.Spain;
+
+            assets.Add(asset);
+
+
+            return true;
+        }
+
+
+        /*
+            Helper method to add an asset from user input
+        */ 
         public void AddAsset()
         {
-         //     Enum.TryParse("Active", out StatusEnum myStatus);
-            // Add user interaction for entering assets here
+            // Enum.TryParse("Active", out StatusEnum myStatus);
+             
+            WriteLine("\nAsset Entry, enter Q to abort and return to Main Menu");
+            bool done = false;
+            while( !done )
+            {
+                Write("\nPlease enter asset type, Computer or Phone: ");
+
+                string? input = ReadLine()?.Trim().ToLower();
+
+                if( input is not null )
+                {
+                    Asset? asset = null; 
+
+                    if( input.Equals("computer") )
+                    {
+                        asset = new Computer();
+                    }
+                    else if( input.Equals("phone") )
+                    {
+                        asset = new Phone();
+                    }
+                    else if( input.ToUpper().Equals("Q"))
+                    {
+                        WriteLine( "Aborted, returning to Main Menu!" );
+                        done = true;
+                    }
+                    else
+                    {
+                        WriteLine( "Unknown Asset Type! ");
+                    }
+
+                    if(asset is not null)
+                    {
+                        if( AddAssetProperties(asset) )
+                        {
+                            WriteLine("New asset added!");
+                            WriteLine("If you want to stop entering assets, enter Q.");
+                        }
+                        else
+                        {
+                            WriteLine("Aborted!");
+                            return; 
+                        }
+                    }
+
+                }
+            }
+
         }
 
         /*
@@ -147,7 +269,6 @@ namespace AssetTracker
 
             int redItems = assets.Where( item => item.MarkedRed() ).ToList().Count;
             int yellowItems = assets.Where( item => item.MarkedYellow() ).ToList().Count;
-
 
             WriteLine();
             WriteLine( $"Computers: {computers}" );

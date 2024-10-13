@@ -23,11 +23,18 @@ namespace AssetTracker
     */
     public class Asset
     {
-        public string Brand { get; set; }
-        public string Model { get; set; }
-        public Price Price { get; set; }
+        public string? Brand { get; set; }
+        public string? Model { get; set; }
+        public Price? Price { get; set; }
         public DateOnly DatePurchased { get; set; }
         public Country Office { get; set; } 
+
+        /*
+            Asset constructor for empty asset
+        */
+        public Asset()
+        {
+        }
 
         /*
             Asset constructor
