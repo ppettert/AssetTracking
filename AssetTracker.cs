@@ -17,6 +17,7 @@ namespace AssetTracker
             WriteLine("Welcome to AssetTracker 1.0");
         }
 
+        
         public void PrettyPrint()
         {
             if( assets.Count == 0 )
@@ -141,14 +142,20 @@ namespace AssetTracker
             Run method contains "Main Menu" to and reads user input
             to perform actions:
 
-            (A)dd Asset, (P)rint Asset List, or (Q)uit
+            A - Add new asset to list
+            P - Print list sorted by Office
+            T - Print list sorted by Type
+            S - Show asset list stats
+            F - Fill asset list with test data
+            L - List commands
+            Q - Quit
 
             return: false if user entered Q to quit, true otherwise
         */
         public bool Run()
         {
 
-            Write("\n(A)dd Asset, (P)rint Asset List, (L)ist all commands or (Q)uit: " );
+            Write("\n(A)dd Asset, (P)rint Asset List, List all (C)ommands or (Q)uit: " );
             
             string? input = ReadLine()?.Trim().ToUpper();
 
@@ -165,7 +172,7 @@ namespace AssetTracker
                     PrettyPrint();
                     break;
 
-                case 'L':
+                case 'C':
                     ListCommands();
                     break;
 
