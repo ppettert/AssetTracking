@@ -1,6 +1,6 @@
 # Weekly MiniProject W40
 ## AssetTracker
-### C# project done to learn this and that
+### C# project done to learn Class inhertance and more.
 
 User interface commands:
 ```
