@@ -28,6 +28,7 @@ The procedure to add an Asset manually (Menu choice 'A') is as follows:
 3. Enter Model name, such as Iphone, Macboook, Thinkpad, Galaxy 23 etc.
 4. Enter Office, for which the asset was bought, pick between USA, Spain and Sweden.
 5. Enter Price, a numeric value with decimals marked by a dot, not comma. Currency will be set according to Office.
-6. Enter Purchase Date, in the format of YYYY-MM-DD. YYYY.MM.DD might also work.
+6. Enter Purchase Date, in the format of YYYY-MM-DD. August 21, 2024 would be entered as 2024-08-21.
+   
 
 ![hello](images/vaultboy_sunglasses.png)
