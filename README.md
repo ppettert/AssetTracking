@@ -16,6 +16,6 @@ Items marked $${\color{red}red}$$ if purchase date is 2 years and 6 months or mo
 Items marked $${\color{magenta}magenta}$$ if purchase date is 2 years and 3 months or more ago.
 Spec says $${\color{yellow}yellow}$$ should be used but it is hard to see on white background in terminal/console. 
 
-Locale set to "en-US" because of currency LiveCurrency currency rate data source uses "." decimal notation.
+Locale set to *"en-US"* because *LiveCurrency* class depends on a data source that uses "." decimal notation.
 
 ![hello](images/vaultboy_sunglasses.png)
