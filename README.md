@@ -9,6 +9,7 @@ P - Print list sorted by Office
 T - Print list sorted by Type
 S - Show asset list stats
 F - Fill asset list with test data
+L - List commands
 Q - Quit
 ```
 
