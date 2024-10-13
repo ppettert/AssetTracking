@@ -6,5 +6,6 @@ namespace AssetTracker
         : base(name, model, amount, datePurchased, office )
         {
         }
+        
     }
 }

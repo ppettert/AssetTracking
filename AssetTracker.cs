@@ -1,3 +1,5 @@
+
+using System.Security.Principal;
 using static System.Console;
 
 namespace AssetTracker
@@ -19,7 +21,7 @@ namespace AssetTracker
         {
             if( assets.Count == 0 )
             {
-                WriteLine("Asset list is empty!");
+                WriteLine("\nAsset list is empty!");
                 return; 
             }
 
@@ -49,7 +51,7 @@ namespace AssetTracker
                 "------"
             );
 
-            foreach (Asset asset in assets)
+            foreach (Asset asset in sortedAssets)
             {
       
                 if( asset.MarkedRed() )
@@ -77,52 +79,63 @@ namespace AssetTracker
             }
         }
 
-        public void InsertDummyValues()
+        public void InsertSampleData()
         {
-            assets.Add
-            (
-                new Computer
-                ( 
-                    "Asus", 
-                    "ROG 500", 
-                    new Price(9999.90m, Currency.SEK), 
-                    DateOnly.FromDateTime(DateTime.Now.AddDays(2.0)), 
-                    Country.Sweden
-                )
-            );
-
-            assets.Add
-            (
-                new Phone
-                (
-                    "Iphone", 
-                    "15", 
-                    new Price(13990.90m, Currency.SEK), 
-                    new DateOnly(2022,7,10), 
-                    Country.Sweden 
-                )
-            );
-
-            assets.Add
-            (
-                new Computer
-                ( 
-                    "Lenovo", 
-                    "TinkPad T490", 
-                    new Price(1599m, Currency.USD), 
-                    new DateOnly(2003,11,5), 
-                    Country.USA 
-                )
-            );
+            // AI was decent at creating this list, also gave me the right answers for dates that are 2 years and 3 months old
+            assets.Add(new Computer("HP", "Elitebook", new Price(1176.03m, Currency.EUR), new DateOnly( 2019, 6, 1 ), Country.Spain) );
+            assets.Add(new Computer("Asus", "W234", new Price(4900m, Currency.SEK), new DateOnly( 2020, 10, 2 ), Country.Sweden) );
+            assets.Add(new Computer("Lenovo", "Yoga 730", new Price(835m, Currency.USD), new DateOnly( 2018, 5, 28 ), Country.USA) );
+            assets.Add(new Phone("Apple", "Iphone 15", new Price(10000m, Currency.USD), new DateOnly( 2024, 9, 11 ), Country.USA) );
+            assets.Add(new Computer("Lenovo", "Yoga 530", new Price(1030m, Currency.USD), new DateOnly( 2019, 5, 21 ), Country.USA));
+            assets.Add(new Computer("Apple", "Macbook Pro", new Price(970m, Currency.EUR), new DateOnly( 2022, 7, 13 ), Country.Spain));
+            assets.Add(new Computer("Apple", "iPhone", new Price(818.18m, Currency.EUR), new DateOnly( 2020, 9, 25 ), Country.Spain));
+            assets.Add(new Computer("Apple", "iPhone", new Price(10375m, Currency.SEK), new DateOnly( 2018, 7, 15 ), Country.Sweden));
+            assets.Add(new Phone("Motorola", "Razr", new Price(8083.33m, Currency.SEK), new DateOnly( 2022, 5, 16 ), Country.Sweden));
+            assets.Add(new Phone("Samsung", "Galaxy S23", new Price(8083.33m, Currency.SEK), new DateOnly( 2023, 3, 16 ), Country.Sweden));
+            assets.Add(new Computer("Asus","ROG 500",new Price(9999.90m, Currency.SEK), new DateOnly( 2024, 10, 15 ), Country.Sweden ));
+        
+            WriteLine($"\nTest data added to list, Asset list now has {assets.Count} items.");
         }
 
         public void AddAsset()
         {
-            InsertDummyValues();
-
+         //     Enum.TryParse("Active", out StatusEnum myStatus);
             // Add user interaction for entering assets here
         }
 
+        public void ListCommands()
+        {
+            WriteLine("\n\tA - Add new asset to list");
+            WriteLine("\tP - Print list sorted by Office");
+            WriteLine("\tT - Print list sorted by Type");
+            WriteLine("\tS - Show asset list stats");
+            WriteLine("\tF - Fill asset list with test data");
+            WriteLine("\tQ - Quit");
+        }
+
+        public void ShowStats()
+        {
+            // It's LINQ time!
+            int count = assets.Count;
+            int computers = assets.Where( item => item.GetType().Name.Equals("Computer")).ToList().Count;
+            int phones = assets.Where( item => item.GetType().Name.Equals("Phone")).ToList().Count;
+            int offices = assets.Select( item => item.Office ).Distinct().ToList().Count;
+
+            int redItems = assets.Where( item => item.MarkedRed() ).ToList().Count;
+            int yellowItems = assets.Where( item => item.MarkedYellow() ).ToList().Count;
+
+
+            WriteLine();
+            WriteLine( $"Computers: {computers}" );
+            WriteLine( $"   Phones: {phones}" );
+            WriteLine( $"    Total: {count}" );
+
+            WriteLine();
+            WriteLine( $"Items that are within 3 months to write-off: {redItems}" );
+            WriteLine( $"Items that are within 6 months (but not within 3) to write-off: {yellowItems}" );
+
+            WriteLine($"\nAssets spread over {offices} offices.\n");
+        }
 
         /*
             Run method contains "Main Menu" to and reads user input
@@ -135,7 +148,7 @@ namespace AssetTracker
         public bool Run()
         {
 
-            Write("\n(A)dd Asset, (P)rint Asset List, or (Q)uit: " );
+            Write("\n(A)dd Asset, (P)rint Asset List, (L)ist all commands or (Q)uit: " );
             
             string? input = ReadLine()?.Trim().ToUpper();
 
@@ -152,11 +165,20 @@ namespace AssetTracker
                     PrettyPrint();
                     break;
 
-                case 'I':
-                    InsertDummyValues();
+                case 'L':
+                    ListCommands();
+                    break;
+
+                case 'F':
+                    InsertSampleData();           
+                    break;
+
+                case 'S':
+                    ShowStats(); 
                     break;
 
                 case 'Q':
+                    WriteLine("\nGoodbye!");
                     return false;
 
                 default:

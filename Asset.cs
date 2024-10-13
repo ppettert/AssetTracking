@@ -9,6 +9,8 @@ namespace AssetTracker
     {
         USA,
         Spain,
+        Germany,
+        France,
         Sweden
     }
     public class Asset
@@ -27,20 +29,28 @@ namespace AssetTracker
             Price = price;
             DatePurchased = datePurchased;
             Office = office;
-        }
+        } 
 
         public bool MarkedRed()
         {
             DateOnly today = DateOnly.FromDateTime(DateTime.Now);
             // Asset should be marked red if 2 years and 6 months or older
-            return this.DatePurchased.AddMonths(30).CompareTo( today ) < 0;  
+            return this.DatePurchased.AddMonths(30).CompareTo( today ) <= 0;  
         }
 
         public bool MarkedYellow()
         {
             DateOnly today = DateOnly.FromDateTime(DateTime.Now);
-            // Asset should be marked red if 2 years and 3 months or older
-            return this.DatePurchased.AddMonths(27).CompareTo( today ) < 0;  
+            // Asset should be marked yellow if 2 years and 3 months or older
+            // but only if not marked red
+            if( this.DatePurchased.AddMonths(30).CompareTo( today ) > 0 )
+            {
+                return this.DatePurchased.AddMonths(27).CompareTo( today ) <= 0; 
+            } 
+            else
+            { 
+                return false;
+            }
         }
     }
 }
