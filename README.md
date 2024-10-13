@@ -22,13 +22,12 @@ Spec says $${\color{yellow}yellow}$$ should be used but it is hard to see when y
 Locale set to *"en-US"* because *LiveCurrency* class depends on a data source that uses "." decimal notation.
 
 The procedure to add an Asset manually (Menu choice 'A') is as follows:
-```
+
 1. Select between Computer or Phone
 2. Enter Brand name, such as Apple, Lenovo, Samsung, OnePlus, HP etc.
 3. Enter Model name, such as Iphone, Macboook, Thinkpad, Galaxy 23 etc.
 4. Enter Office, for which the asset was bought, pick between USA, Spain and Sweden.
 5. Enter Price, a numeric value with decimals marked by a dot, not comma. Currency will be set according to Office.
 
-```
 
 ![hello](images/vaultboy_sunglasses.png)
