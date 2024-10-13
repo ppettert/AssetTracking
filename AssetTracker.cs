@@ -189,25 +189,25 @@ namespace AssetTracker
                         return false;
                     }
                     else
-                    {
-                        Country office = Country.Spain;
-
-                        string[] validCountries = ["Spain", "Sweden", "USA"];
-
-                        foreach (var curr in validCountries)
+                    {               
+                        if( input.Equals("Spain", OrdinalIgnoreCase ) )
                         {
-                            if (input.Equals(curr, OrdinalIgnoreCase))
-                            {
-                                office = Enum.Parse<Country>(curr);
-                                asset.Office = office; 
-                                done = true;
-                                break;
-                            }
+                            asset.Office = Country.Spain;
+                            done = true;
                         }
-
-                        if( !done )
+                        else if( input.Equals("Sweden", OrdinalIgnoreCase ) )
+                        {   
+                            asset.Office = Country.Sweden;
+                            done = true;
+                        }   
+                        else if( input.Equals("USA", OrdinalIgnoreCase ) ) 
                         {
-                            WriteLine("Not a valid office!");
+                            asset.Office = Country.USA;
+                            done = true;
+                        }
+                        else
+                        {
+                            WriteLine("Not a valid office!");                          
                         }
                     }
                 }
@@ -243,14 +243,12 @@ namespace AssetTracker
                         
                         asset.Price = new( amount, currency ); 
                         done = true;
-
                     }
                     else
                     {
                         WriteLine("Invalid amount value entered!");
                     }
                 }
-
             }
 
             // DateOnly user input loop
@@ -287,9 +285,7 @@ namespace AssetTracker
                             WriteLine("Was not able to understand the date format. Please try again!");
                         }
                     }
-
                 }
-
             }
     
             assets.Add(asset);
@@ -302,14 +298,11 @@ namespace AssetTracker
             Helper method to add an asset from user input
         */ 
         public void AddAsset()
-        {
-             
-            WriteLine("\nAsset Entry, enter Q to abort and return to Main Menu");
+        {     
             bool done = false;
             while( !done )
             {
-                WriteLine("\nPlease enter asset type,");
-                WriteLine("(C)omputer, (P)hone or Q to return to Main Menu: ");
+                Write("\nPlease enter asset type, (C)omputer, (P)hone or (Q)uit to return to Main Menu: ");
 
                 string? input = ReadLine()?.Trim();
 
@@ -327,7 +320,7 @@ namespace AssetTracker
                     }
                     else if( input.Equals("Q", OrdinalIgnoreCase) )
                     {
-                        WriteLine( "Returning to Main Menu!" );
+                        WriteLine( "Returning to Main Menu." );
                         done = true;
                     }
                     else
@@ -347,10 +340,8 @@ namespace AssetTracker
                             return; 
                         }
                     }
-
-                }
+                }    
             }
-
         }
 
         /*
@@ -408,13 +399,9 @@ namespace AssetTracker
         */
         public bool Run()
         {
-
             Write("\n(A)dd Asset, (P)rint Asset List, List all (C)ommands or (Q)uit: " );
             
             string? input = ReadLine()?.Trim().ToUpper();
-
-            // if input==null or empty then set inputChar to ' ' ...
-            // char? inputChar = input?.Length == 0 ? ' ' : input?.First();
                   
             switch( input )
             {
