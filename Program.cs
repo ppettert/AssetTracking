@@ -1,8 +1,4 @@
-﻿// See https://aka.ms/new-console-template for more information
-using static System.Console;
-using System;
-using System.Globalization;
-using System.Transactions;
+﻿using System.Globalization;
 
 namespace AssetTracker
 {
